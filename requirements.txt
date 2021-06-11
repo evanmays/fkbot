@@ -1,0 +1,4 @@
+gym
+selenium
+np
+web3
