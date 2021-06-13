@@ -23,7 +23,8 @@ const mapPlanetToObservable = (planet) => ({
   energy: planet.energy ,
   defense: planet.defense,
   level: planet.planetLevel,
-  isOwnedByBot: planet.owner === df.account
+  isOwnedByBot: planet.owner === df.account,
+  locationId: planet.locationId
 })
 function getAllReachablePlanets() {
   const reachablePlanets = {};
@@ -32,7 +33,7 @@ function getAllReachablePlanets() {
     reachablePlanets[sourcePlanet.locationId] = mapPlanetToObservable(sourcePlanet)
   }
   for (let sourcePlanet of df.getMyPlanets()) {
-    for (let reachablePlanet of df.getPlanetsInRange(sourcePlanet.locationId, 99)) {
+    for (let reachablePlanet of df.getPlanetsInRange(sourcePlanet.locationId, 45)) {
       if (reachablePlanet.locationId in reachablePlanets) {
         continue;
       }
@@ -102,16 +103,10 @@ function capturePlanets(fromId, minCaptureLevel, maxDistributeEnergyPercent) {
   return moves;
 }
 
-
-queuedmove = await import("https://plugins.zkga.me/utils/queued-move.js")
-move = queuedmove.move
-
-const randomove = () => {
-  /*import {
-    move
-  } from 'https://plugins.zkga.me/utils/queued-move.js'; */
-  console.log(df)
-  console.log("it works")
+const randomove = async () => {
+  const {move} = await import("https://plugins.zkga.me/utils/queued-move.js");
+  console.log(df);
+  console.log("it works");
   for (let planet of df.getMyPlanets()) {
     setTimeout(() => {
       capturePlanets(
@@ -121,10 +116,10 @@ const randomove = () => {
       );
     }, 0);
   }
-  //move(fromId, candidate.locationId, energyNeeded, 0);
 }
 
 const sendEnergy = (fromPlanetId, toPlanetId, percentAmount) => {
   const energy = Math.round(df.getPlanetWithId(fromPlanetId).energy * percentAmount)
-  move(fromPlanetId, toPlanetId, energy, 0);
+  console.log(energy)
+  df.move(fromPlanetId, toPlanetId, energy, 0)
 }
