@@ -19,8 +19,16 @@ env.planets
 
 You should see a few planets in a list along with info on each planet.
 
+Another thing you can try is manually playing the game
+```
+python -i manual_play.py
+>>> g.getAllReachablePlanets()[:2] # this will give you info about 2 nearby planets, the first should be one you own, the second one you don't own. Grab the location id of the first and second planets for the next line.
+>>> g.sendEnergy(<get a location id of first planet>, <get location id of second planet>, 0.8)
+```
+
+This should caputre the second planet
+
 ## AI Design Idea
 Bot takes in a list of (at most 512) planets that are reachable from it's owned planets then the bot outputs two numbers. The index of the planet sending energy from and the index of the planet sending energy to. Also outputs the percent of source planets energy we are sending. This gets passed back to the environment class which will execute the command in the game.
 
 The most basic kind of AI we can do here is a transformer with 1 head for the index of the source planet and 1 head for the index of the destination planet. Then a perceptron that takes the metadata of both planets in and outputs the percent energy to send.
-
