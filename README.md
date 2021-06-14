@@ -14,6 +14,7 @@ In your python interpreter you can try the following
 ```
 import gym, df_gym
 env = gym.make('df_gym:df-v0')
+env.reset() # randomly generates a new account, and funds it with ETH
 env.planets
 ```
 
@@ -29,6 +30,6 @@ python -i manual_play.py
 This should caputre the second planet
 
 ## AI Design Idea
-Bot takes in a list of (at most 512) planets that are reachable from it's owned planets then the bot outputs two numbers. The index of the planet sending energy from and the index of the planet sending energy to. Also outputs the percent of source planets energy we are sending. This gets passed back to the environment class which will execute the command in the game.
+Bot takes in a list of (at most 512) planets that are reachable from it's owned planets then the bot outputs two numbers. The index of the planet sending energy from and the index of the planet sending energy to. This gets passed back to the gym environment class which will send some constant amount of energy between the planets.
 
-The most basic kind of AI we can do here is a transformer with 1 head for the index of the source planet and 1 head for the index of the destination planet. Then a perceptron that takes the metadata of both planets in and outputs the percent energy to send.
+The most basic kind of AI we can do here is a transformer with 1 head for the index of the source planet and 1 head for the index of the destination planet.
